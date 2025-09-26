@@ -39,13 +39,14 @@ export class AuthService {
       username: user.username,
       role: user.role.name
     }
-
+    const expires_in = 3600 * 1000 * 12; // 12 hours
     const access_token = this.jwtService.sign(payload);
-    const refresh_token = this.jwtService.sign(payload, {expiresIn: '7d'});
+    const refresh_token = this.jwtService.sign(payload, {expiresIn: expires_in});
 
     await this.refreshTokenRepository.save({user, token: refresh_token});
 
     return {
+      expires_in,
       access_token,
       refresh_token,
       user
@@ -70,13 +71,15 @@ export class AuthService {
       username: user.username,
       role: user.role.name
     }
+    const expires_in = 3600 * 1000 * 12; // 12 hours
 
     const access_token = this.jwtService.sign(payload);
-    const new_refresh_token = this.jwtService.sign(payload, {expiresIn: '7d'});
+    const new_refresh_token = this.jwtService.sign(payload, {expiresIn: expires_in});
 
     await this.refreshTokenRepository.update(idToken, {token: new_refresh_token});
 
     return {
+      expires_in,
       access_token,
       refresh_token: new_refresh_token,
       user

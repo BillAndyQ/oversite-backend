@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { OtEquipoService } from './ot-equipo.service';
 import { CreateOtEquipoDto } from './dto/create-ot-equipo.dto';
 import { UpdateOtEquipoDto } from './dto/update-ot-equipo.dto';
-import { AuthGuard } from 'src/auth/auht.guard';
 
 @Controller('ot-equipo')
 export class OtEquipoController {
@@ -13,7 +12,7 @@ export class OtEquipoController {
     return this.otEquipoService.create(createOtEquipoDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.otEquipoService.findAll();

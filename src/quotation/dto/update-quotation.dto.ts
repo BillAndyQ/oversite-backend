@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
-import { CreateOtEquipoDto } from './create-ot-equipo.dto';
+import { CreateQuotationDto } from './create-quotation.dto';
 import { IsString } from 'class-validator';
 
-export class UpdateOtEquipoDto extends PartialType(CreateOtEquipoDto) {
+export class UpdateQuotationDto extends PartialType(CreateQuotationDto) {
 
     @IsString()
     enterprise : string;
@@ -51,4 +51,5 @@ export class UpdateOtEquipoDto extends PartialType(CreateOtEquipoDto) {
 
     @IsString()
     status : string
+
 }

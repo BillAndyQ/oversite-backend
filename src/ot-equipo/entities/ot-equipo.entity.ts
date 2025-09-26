@@ -1,63 +1,61 @@
-import { Certificadoras } from "src/enums/certificadoras.enum";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Photos } from "./photos.entity";
+import { Status } from "src/enums/quotation";
+import { Unidad } from "src/unidad/entities/unidad.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 
 @Entity()
 export class OtEquipo {
-    @PrimaryGeneratedColumn()   
-    id: number;
-    
-    @Column()
-    n_order : string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    enterprise : string;
+  @Column({ nullable: true })
+  n_order: string;
 
-    @Column()
-    ruc : string;
+  @Column({ nullable: true })
+  n_service: string;
 
-    @Column()
-    date_service: string;
+  @Column({ nullable: true })
+  n_quotation: string;
+  
+  @Column()
+  enterprise: string;
 
-    @Column()
-    address: string;
+  @Column()
+  ruc: string;
 
-    @Column()
-    inspector : string ; 
+  @Column()
+  date_service: string;
 
-    @Column("enum", { enum: Certificadoras })
-    certifier : string;
+  @Column()
+  address: string;
 
-    @Column()
-    unit_type : string;
+  @OneToMany(() => Unidad, (unidad) => unidad.ot_equipo, { cascade: true })
+  unidades: Unidad[];
 
-    @Column()
-    service_type : string;
+  @Column({ enum: Status , nullable: true})
+  status: string;
 
-    @Column()
-    plate : string;
+  @Column({ nullable: true })
+  subtotal_soles: number;   // base imponible en soles
 
-    @Column()
-    src_certificate : string;
+  @Column({ nullable: true })
+  subtotal_dollars: number; // base imponible en dólares
 
-    @Column()
-    src_final_report : string;
-    
-    @Column()
-    src_field_report : string;
+  @Column({ nullable: true })
+  total_soles: number;
 
-    @Column()
-    service_description : string;
+  @Column({ nullable: true })
+  total_dollars: number;
 
-    @Column()
-    observations : string;
+  @Column({ nullable: true })
+  total_igv_soles: number;
 
-    @Column()
-    comments : string;
+  @Column({ nullable: true })
+  total_igv_dollars: number;
 
-    @Column()
-    status : boolean
+  @Column({ nullable: true })
+  type_currency: string;
 
-    @OneToMany(() => Photos, (photos) => photos.ot_equipo)
-    photos: Photos[];
+  @Column({ nullable: true })
+  exchange_rate: number;
+  
 }

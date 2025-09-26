@@ -1,0 +1,9 @@
+
+export enum Status {
+    COTIZACION = "COTIZACION",
+    APROBADA = "APROBADA",
+    RECHAZADA = "RECHAZADA",
+    EN_PROCESO = "EN_PROCESO",
+    CERRADO = "CERRADO",
+}
+

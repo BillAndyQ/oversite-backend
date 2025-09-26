@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Sequence } from './entities/sequence.entity';
+import { Sequence } from './entities/sequence-ot.entity';
 import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SequenceCot } from './entities/sequence-cot.entity';
 
 @Injectable()
 export class SequenceService {
@@ -10,6 +11,35 @@ export class SequenceService {
     private readonly sequenceRepository: Repository<Sequence>,
     private readonly dataSource: DataSource,
   ) {}
+
+  async generateNQuotation(){
+    const now = new Date();
+    const mes = now.getMonth() + 1;
+    const anio = now.getFullYear();
+
+    return await this.dataSource.transaction(async (manager) => {
+      // 1. Buscar secuencia existente
+      let sequence = await manager.findOne(SequenceCot, {
+        where: { mes, anio },
+        lock: { mode: 'pessimistic_write' },
+      });
+
+      // 2. Crear si no existe
+      if (!sequence) {
+        sequence = manager.create(SequenceCot, { mes, anio, lastNumber: 0 });
+        await manager.save(sequence);
+      }
+
+      // 3. Incrementar correlativo
+      sequence.lastNumber += 1;
+      await manager.save(sequence);
+
+      const correlativo = String(sequence.lastNumber).padStart(6, '0');
+      const n_quotation = `COT-${String(mes).padStart(2, '0')}-${anio}-${correlativo}`;
+
+      return n_quotation;
+    });
+  }
 
   async generateOrder(){
     const now = new Date();

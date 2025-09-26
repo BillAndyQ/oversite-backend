@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { OtEquipo } from "./ot-equipo.entity";
+import { Unidad } from "src/unidad/entities/unidad.entity";
 
 @Entity()
 export class Photos {
@@ -10,6 +10,6 @@ export class Photos {
     @Column()
     src: string;
 
-    @ManyToOne(() => OtEquipo, (ot_equipo) => ot_equipo.photos)
-    ot_equipo: OtEquipo;
+    @ManyToOne(() => Unidad, (unidad) => unidad.photos)
+    unidad: Unidad;
 }

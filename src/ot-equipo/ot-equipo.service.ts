@@ -5,6 +5,7 @@ import { OtEquipo } from './entities/ot-equipo.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SequenceService } from 'src/sequence/sequence.service';
+import { Not, IsNull } from 'typeorm';
 
 @Injectable()
 export class OtEquipoService {
@@ -25,7 +26,7 @@ export class OtEquipoService {
   }
 
   findAll() {
-    return this.otEquipoRepository.find();
+    return this.otEquipoRepository.find({where: {n_order: Not(IsNull())}});
   }
 
   findOne(n_order: string) {

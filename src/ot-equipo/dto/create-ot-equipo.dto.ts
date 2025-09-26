@@ -48,6 +48,6 @@ export class CreateOtEquipoDto {
     @IsString()
     comments : string
 
-    @IsBoolean()
-    status : boolean
+    @IsString()
+    status : string
 }

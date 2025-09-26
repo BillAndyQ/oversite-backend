@@ -11,10 +11,16 @@ import { OtEquipo } from './ot-equipo/entities/ot-equipo.entity';
 import { Photos } from './ot-equipo/entities/photos.entity';
 import { Role } from './user/entities/role.entity';
 import { SequenceModule } from './sequence/sequence.module';
-import { Sequence } from './sequence/entities/sequence.entity';
+import { Sequence } from './sequence/entities/sequence-ot.entity';
+import { SequenceCot } from './sequence/entities/sequence-cot.entity';
 import { InvoiceModule } from './invoice/invoice.module';
 import { WoPersonnelModule } from './wo-personnel/wo-personnel.module';
 import { WoPersonnel } from './wo-personnel/entities/wo-personnel.entity';
+import { EnterpriseModule } from './enterprise/enterprise.module';
+import { UnidadModule } from './unidad/unidad.module';
+import { Unidad } from './unidad/entities/unidad.entity';
+import { QuotationModule } from './quotation/quotation.module';
+import { Enterprise } from './enterprise/entities/enterprise.entity';
 
 @Module({
   imports: [AuthModule, UserModule, TypeOrmModule.forRoot({
@@ -24,9 +30,9 @@ import { WoPersonnel } from './wo-personnel/entities/wo-personnel.entity';
     username: 'user',
     password: 'password',
     database: 'appdb',
-    entities: [User, RefreshToken, OtEquipo, Photos, Role, Sequence, WoPersonnel],
+    entities: [User, RefreshToken, OtEquipo, Photos, Role, Sequence, SequenceCot, WoPersonnel, Unidad, Enterprise],
     synchronize: true,
-  }), OtEquipoModule, SequenceModule, InvoiceModule, WoPersonnelModule],
+  }), OtEquipoModule, SequenceModule, InvoiceModule, WoPersonnelModule, EnterpriseModule, UnidadModule, QuotationModule],
   controllers: [AppController],
   providers: [AppService],
 })
