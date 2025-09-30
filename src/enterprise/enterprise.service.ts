@@ -17,7 +17,16 @@ export class EnterpriseService {
   }
 
   findAll() {
-    return this.enterpriseRepository.find();
+    return this.enterpriseRepository
+    .createQueryBuilder('empresa')
+    .select([
+      'ruc as ruc',
+      'razon_social AS enterprise',
+      'email as email',
+      'telefono as telefono',
+      'direccion as direccion',
+    ])
+    .getRawMany();
   }
 
   findOne(ruc: string) {

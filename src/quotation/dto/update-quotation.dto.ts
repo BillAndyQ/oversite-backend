@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateQuotationDto } from './create-quotation.dto';
-import { IsString } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsDecimal } from 'class-validator';
 
 export class UpdateQuotationDto extends PartialType(CreateQuotationDto) {
 
@@ -52,4 +52,38 @@ export class UpdateQuotationDto extends PartialType(CreateQuotationDto) {
     @IsString()
     status : string
 
+    @IsNumber()
+    @IsOptional()   
+    subtotal_soles : number
+
+    @IsNumber()
+    @IsOptional()
+    subtotal_dollars : number
+
+    @IsNumber()
+    @IsOptional()
+    total_soles : number
+
+    @IsNumber()
+    @IsOptional()
+    total_dollars : number
+
+    @IsNumber()
+    @IsOptional()
+    total_igv_soles : number
+
+    @IsNumber()
+    @IsOptional()
+    total_igv_dollars : number
+
+    @IsString()
+    @IsOptional()
+    type_currency : string
+
+    @IsNumber(
+        { maxDecimalPlaces: 4 }, 
+        { message: 'exchange_rate must be a valid number' }
+      )
+      @IsOptional()
+      exchange_rate: number;
 }

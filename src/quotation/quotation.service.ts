@@ -8,6 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Status } from 'src/enums/quotation';
 import { Not, IsNull } from 'typeorm';
+import { Unidad } from 'src/unidad/entities/unidad.entity';
+import { CreateQuotationUnidadDto } from './dto/create-quotation-unidad.dto';
 @Injectable()
 export class QuotationService {
 
@@ -17,6 +19,8 @@ export class QuotationService {
     @InjectRepository(WoPersonnel)
     private readonly woPersonnelRepository: Repository<WoPersonnel>,
     private readonly sequenceService: SequenceService,
+    @InjectRepository(Unidad)
+    private readonly unidadRepository: Repository<Unidad>,
   ) {}
 
   async createQuotationEquipo(createQuotationDto: CreateQuotationDto) {
@@ -72,4 +76,57 @@ export class QuotationService {
     }
     return this.otEquipoRepository.delete({n_quotation : n_quotation});
   }
+
+  async findUnits(n_quotation: string) {
+    const quotation = await this.otEquipoRepository.findOne({where: {n_quotation}, relations: ['unidades']});
+    if (!quotation) {
+      throw new Error('Quotation not found');
+    }
+    return quotation.unidades;
+  }
+
+  async createUnits(n_quotation: string, unidad: CreateQuotationUnidadDto) {
+    // Buscar la cotización por código
+    const quotation = await this.otEquipoRepository.findOne({
+      where: { n_quotation },
+    });
+
+    console.log(quotation);
+    if (!quotation) {
+      console.log('Quotation not found');
+      throw new Error('Quotation not found');
+    }
+
+    // Crear la unidad con la relación a la cotización
+    const unit = this.unidadRepository.create({
+      ...unidad,
+      ot_equipo : quotation,
+    });
+    const savedUnit = await this.unidadRepository.save(unit);
+    const {ot_equipo, ...rest} = savedUnit;
+    return rest;
+  }
+
+  async removeUnits(n_quotation: string, id: number) {
+    const quotation = await this.otEquipoRepository.findOne({where: {n_quotation, unidades: {id: id}} , relations: ['unidades']});
+    if (!quotation) {
+      throw new Error('Quotation not found');
+    }
+    return this.unidadRepository.delete({id : id});
+  }
+
+  async updateUnit(n_quotation: string, id: number, unidad: CreateQuotationUnidadDto) {
+    const quotation = await this.otEquipoRepository.findOne({where: {n_quotation, unidades: {id: id}} , relations: ['unidades']});
+    if (!quotation) {
+      throw new Error('Quotation not found');
+    }
+
+    const unidVerif = await this.unidadRepository.findOne({where: {id: id}});
+    if (!unidVerif) {
+      throw new Error('Unit not found');
+    }
+   
+    return this.unidadRepository.update({id : id}, unidad);
+  }
+  
 }

@@ -8,13 +8,13 @@ export class Unidad {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   code: string;
 
-  @Column()
+  @Column({ nullable: true })
   inspector: string;
 
-  @Column("enum", { enum: Certificadoras })
+  @Column("enum", { enum: Certificadoras, nullable: true })
   certifier: string;
 
   @Column()
@@ -23,28 +23,28 @@ export class Unidad {
   @Column()
   service_type: string; // NOT, IZAJE, Mantto Industrial, Faraday, etc.
 
-  @Column()
+  @Column({ nullable: true })
   plate: string;
 
-  @Column()
+  @Column({ nullable: true })
   src_certificate: string; // PDF certificado
 
-  @Column()
+  @Column({ nullable: true })
   src_final_report: string; // PDF informe final
 
-  @Column()
+  @Column({ nullable: true })
   src_field_report: string; // PDF informe de campo
 
   @OneToMany(() => Photos, (photos) => photos.unidad, { cascade: true })
   photos: Photos[];
 
-  @Column()
+  @Column({ nullable: true })
   service_description: string;
 
-  @Column()
+  @Column({ nullable: true })
   observations: string;
 
-  @Column()
+  @Column({ nullable: true })
   comments: string;
 
   @Column({ default: true })
@@ -53,22 +53,70 @@ export class Unidad {
   @ManyToOne(() => OtEquipo, (ot) => ot.unidades)
   ot_equipo: OtEquipo;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   unit_soles: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   unit_dollars: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   unit_igv_soles: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   unit_igv_dollars: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   unit_subtotal_soles: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   unit_subtotal_dollars: number;
 
   @Column({ nullable: true })

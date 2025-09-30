@@ -7,10 +7,11 @@ import { WoPersonnel } from 'src/wo-personnel/entities/wo-personnel.entity';
 import { SequenceService } from 'src/sequence/sequence.service';
 import { Sequence } from 'src/sequence/entities/sequence-ot.entity';
 import { SequenceCot } from 'src/sequence/entities/sequence-cot.entity';
+import { Unidad } from 'src/unidad/entities/unidad.entity';
 
 @Module({
   controllers: [QuotationController],
   providers: [QuotationService, SequenceService],
-  imports: [TypeOrmModule.forFeature([OtEquipo, WoPersonnel, Sequence, SequenceCot])]
+  imports: [TypeOrmModule.forFeature([OtEquipo, WoPersonnel, Sequence, SequenceCot, Unidad])]
 })
 export class QuotationModule {}

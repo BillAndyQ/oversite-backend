@@ -16,16 +16,16 @@ export class OtEquipo {
   @Column({ nullable: true })
   n_quotation: string;
   
-  @Column()
+  @Column({ nullable: true })
   enterprise: string;
 
-  @Column()
+  @Column({ nullable: true })
   ruc: string;
 
-  @Column()
+  @Column({ nullable: true })
   date_service: string;
 
-  @Column()
+  @Column({ nullable: true })
   address: string;
 
   @OneToMany(() => Unidad, (unidad) => unidad.ot_equipo, { cascade: true })
@@ -55,7 +55,17 @@ export class OtEquipo {
   @Column({ nullable: true })
   type_currency: string;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   exchange_rate: number;
-  
+
+  @Column({ nullable: true })
+  currency_converted: boolean;
 }
