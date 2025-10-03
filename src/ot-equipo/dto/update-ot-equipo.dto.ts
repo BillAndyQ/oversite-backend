@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateOtEquipoDto } from './create-ot-equipo.dto';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class UpdateOtEquipoDto extends PartialType(CreateOtEquipoDto) {
 
@@ -51,4 +51,10 @@ export class UpdateOtEquipoDto extends PartialType(CreateOtEquipoDto) {
 
     @IsString()
     status : string
+
+    @IsString()
+    type_currency : string
+
+    @IsNumber()
+    exchange_rate : number
 }

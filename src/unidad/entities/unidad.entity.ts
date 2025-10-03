@@ -3,6 +3,16 @@ import { OtEquipo } from "src/ot-equipo/entities/ot-equipo.entity";
 import { Photos } from "src/ot-equipo/entities/photos.entity";
 import { Certificadoras } from "src/enums/certificadoras.enum";
 
+const optionsDecimal = {
+  precision: 10,
+  scale: 2,
+  nullable: true,
+  transformer: {
+    to: (value: number | null) => value,
+    from: (value: string | null) => value ? parseFloat(value) : null,
+  },
+}
+
 @Entity()
 export class Unidad {
   @PrimaryGeneratedColumn()
@@ -53,70 +63,22 @@ export class Unidad {
   @ManyToOne(() => OtEquipo, (ot) => ot.unidades)
   ot_equipo: OtEquipo;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 4,
-    nullable: true,
-    transformer: {
-      to: (value: number | null) => value,
-      from: (value: string | null) => value ? parseFloat(value) : null,
-    },
-  })
+  @Column('decimal', optionsDecimal)
   unit_soles: number;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 4,
-    nullable: true,
-    transformer: {
-      to: (value: number | null) => value,
-      from: (value: string | null) => value ? parseFloat(value) : null,
-    },
-  })
+  @Column('decimal', optionsDecimal)
   unit_dollars: number;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 4,
-    nullable: true,
-    transformer: {
-      to: (value: number | null) => value,
-      from: (value: string | null) => value ? parseFloat(value) : null,
-    },
-  })
+  @Column('decimal', optionsDecimal)
   unit_igv_soles: number;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 4,
-    nullable: true,
-    transformer: {
-      to: (value: number | null) => value,
-      from: (value: string | null) => value ? parseFloat(value) : null,
-    },
-  })
+  @Column('decimal', optionsDecimal)
   unit_igv_dollars: number;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 4,
-    nullable: true,
-    transformer: {
-      to: (value: number | null) => value,
-      from: (value: string | null) => value ? parseFloat(value) : null,
-    },
-  })
+  @Column('decimal', optionsDecimal)
   unit_subtotal_soles: number;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 4,
-    nullable: true,
-    transformer: {
-      to: (value: number | null) => value,
-      from: (value: string | null) => value ? parseFloat(value) : null,
-    },
-  })
+  @Column('decimal', optionsDecimal)
   unit_subtotal_dollars: number;
 
   @Column({ nullable: true })

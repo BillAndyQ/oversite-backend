@@ -48,8 +48,8 @@ export class CreateWoPersonnelDto {
     @IsString()
     comments : string;
 
-    @IsBoolean()
-    status : boolean;
+    @IsString()
+    status : string;
 
     @IsString()
     src_certificate : string;

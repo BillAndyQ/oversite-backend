@@ -1,4 +1,5 @@
 import { Certificadoras } from "src/enums/certificadoras.enum";
+import { Status } from "src/enums/quotation";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -6,57 +7,75 @@ export class WoPersonnel {
     @PrimaryGeneratedColumn()   
     id: number;
     
-    @Column()
+    @Column({ nullable: true })
     n_order : string;
 
-    @Column()
+    @Column({ nullable: true })
+    n_quotation : string;
+
+    @Column({ nullable: true })
     enterprise : string;
 
-    @Column()
+    @Column({ nullable: true })
     ruc : string;
 
-    @Column()
+    @Column({ nullable: true })
     inspector : string;  
 
-    @Column()
+    @Column({ nullable: true })
     mode : string;
 
-    @Column()
+    @Column({ nullable: true })
     course : string;
 
-    @Column()
+    @Column({ nullable: true })
     names : string;
 
-    @Column()
+    @Column({ nullable: true })
     last_names : string;
 
-    @Column()
+    @Column({ nullable: true })
     dni : string;
 
-    @Column()
+    @Column({ nullable: true })
     date : string;
 
-    @Column()
+    @Column({ nullable: true })
     approved : string;
 
     @Column("enum", { enum: Certificadoras })
+    @Column({ nullable: true })
     certifier : string;
 
-    @Column()
+    @Column({ nullable: true })
     project : string;
 
-    @Column()
+    @Column({ nullable: true })
     instructor : string;
 
-    @Column()
+    @Column({ nullable: true })
     n_times : string;
 
-    @Column()
+    @Column({ nullable: true })
     comments : string;
 
-    @Column()
-    status : boolean;
+    @Column({ enum: Status , nullable: true})
+    status: string;
 
-    @Column()
+    @Column({ nullable: true })
     src_certificate : string;
+
+    @Column({ nullable: true })
+    type_currency : string;
+
+    @Column('decimal', {
+      precision: 10,
+      scale: 4,
+      nullable: true,
+      transformer: {
+        to: (value: number | null) => value,
+        from: (value: string | null) => value ? parseFloat(value) : null,
+      },
+    })
+    exchange_rate: number;
 }

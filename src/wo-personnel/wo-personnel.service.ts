@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WoPersonnel } from './entities/wo-personnel.entity';
 import { Repository } from 'typeorm';
 import { SequenceService } from 'src/sequence/sequence.service';
+import { Not, IsNull } from 'typeorm';
 
 @Injectable()
 export class WoPersonnelService {
@@ -25,8 +26,12 @@ export class WoPersonnelService {
     return this.woPersonnelRepository.save(woPersonnel);
   }
 
-  findAll() {
-    return this.woPersonnelRepository.find();
+  async findAll() {
+    const personnel = await this.woPersonnelRepository.find({where: {n_order: Not(IsNull())}});
+    if (!personnel) {
+      throw new Error('Personnel not found');
+    }
+    return personnel;
   }
 
   findOne(n_order: string) {

@@ -15,6 +15,9 @@ export class OtEquipo {
 
   @Column({ nullable: true })
   n_quotation: string;
+
+  @Column({ nullable: true })
+  certifier: string;
   
   @Column({ nullable: true })
   enterprise: string;
@@ -34,22 +37,70 @@ export class OtEquipo {
   @Column({ enum: Status , nullable: true})
   status: string;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   subtotal_soles: number;   // base imponible en soles
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   subtotal_dollars: number; // base imponible en dólares
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   total_soles: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   total_dollars: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   total_igv_soles: number;
 
-  @Column({ nullable: true })
+  @Column('decimal', {
+    precision: 10,
+    scale: 4,
+    nullable: true,
+    transformer: {
+      to: (value: number | null) => value,
+      from: (value: string | null) => value ? parseFloat(value) : null,
+    },
+  })
   total_igv_dollars: number;
 
   @Column({ nullable: true })
