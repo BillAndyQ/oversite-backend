@@ -48,6 +48,32 @@ export class MinioService {
   
     return `${bucket}/${finalName}`;
   }
+  async uploadFileFotos(
+    bucket: string,
+    fileName: string,
+    buffer: Buffer,
+    contentType: string,
+  ): Promise<string> {
+    // Verificar si el bucket existe
+    const exists = await this.minioClient.bucketExists(bucket);
+    if (!exists) {
+      await this.minioClient.makeBucket(bucket, 'us-east-1');
+    }
+  
+    // Obtener extensión del tipo MIME
+    const finalName = `${fileName}`;
+  
+    // Subir archivo
+    await this.minioClient.putObject(
+      bucket,
+      finalName,
+      buffer,
+      buffer.length,
+      { 'Content-Type': contentType }, // Importante para que se conserve el tipo MIME
+    );
+  
+    return `${bucket}/${finalName}`;
+  }
 
   async getObject(
     bucket: string,

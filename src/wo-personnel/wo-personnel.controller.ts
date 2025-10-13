@@ -90,10 +90,10 @@ export class WoPersonnelController {
   }
 
   @Get(':n_order/file/photos')
-  async getUnidadPhotos(
+  async getPhotos(
     @Param('n_order') n_order: string,
   ) {
-    return this.woPersonnelService.getUnidadPhotos(n_order);
+    return this.woPersonnelService.getPhotos(n_order);
   }
 
   @Post(':n_order/file/photos')
@@ -102,7 +102,7 @@ export class WoPersonnelController {
     @Param('n_order') n_order: string,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.woPersonnelService.createUnidadPhoto(n_order, files);
+    return this.woPersonnelService.createPhoto(n_order, files);
   }
 
 }

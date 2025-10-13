@@ -103,23 +103,23 @@ export class WoPersonnelService {
     
   }
 
-  async getUnidadPhotos(n_order: string) {
-    const unidad = await this.woPersonnelRepository.findOne({
+  async getPhotos(n_order: string) {
+    const personnel = await this.woPersonnelRepository.findOne({
       where: { n_order },
       relations: ['photos'],
     });
 
-    if (!unidad) throw new Error('No se encontró la Unidad');
+    if (!personnel) throw new Error('No se encontró la Unidad');
 
     return Promise.all(
-      unidad.photos.map(async (photo) => ({
+      personnel.photos.map(async (photo) => ({
         id: photo.id,
         url: await this.minioService.getPublicUrl('oversite', photo.src),
       }))
     );
   }
 
-  async createUnidadPhoto(
+  async createPhoto(
     n_order: string,
     files: Express.Multer.File[],
   ) {
@@ -131,8 +131,9 @@ export class WoPersonnelService {
     const uploadedPhotos = await Promise.all(
       files.map(async (file) => {
         const extension = file.originalname.split('.').pop();
-        const fileName = `fotos/${personnel.n_order}/${Date.now()}_${file.originalname}`;
-        const fileUrl = await this.minioService.uploadFile(
+        // const fileName = `fotos/${personnel.n_order}/${Date.now()}`;
+        const fileName = `fotos/${personnel.n_order}/${Date.now()}.${extension}`;
+        const fileUrl = await this.minioService.uploadFileFotos(
           bucketName,
           fileName,
           file.buffer,
@@ -140,7 +141,7 @@ export class WoPersonnelService {
         );
 
         const photo = this.photosRepository.create({
-          src: `${fileName}.${extension}`,
+          src: `${fileName}`,
           woPersonnel: personnel,
         });
         await this.photosRepository.save(photo);
@@ -148,7 +149,7 @@ export class WoPersonnelService {
         return {
           originalName: file.originalname,
           url: fileUrl,
-          dbPath: `${fileName}.${extension}`,
+          dbPath: `${fileName}`,
         };
       }),
     );
