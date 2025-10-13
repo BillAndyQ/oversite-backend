@@ -3,21 +3,29 @@ services:
   db:
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: appdb
+    env_file:
+      - .env.local
     ports:
       - "5498:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+  oversite-backend:
+    build: .
+    container_name: oversite-backend
+    ports:
+      - "3001:3000"  # mapa puerto del host a contenedor
+    restart: always
+    depends_on:
+      - db
+      - minio
+    env_file:
+    - .env.local
 
   minio:
     image: minio/minio
     restart: always
-    environment:
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
+    env_file:
+    - .env.local
     ports:
       - "9000:9000"   # API
       - "9001:9001"   # Consola web
@@ -28,3 +36,4 @@ services:
 volumes:
   pgdata:
   minio:
+  
