@@ -1,6 +1,8 @@
 import { Certificadoras } from "src/enums/certificadoras.enum";
 import { Status } from "src/enums/quotation";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Photos } from "src/ot-equipo/entities/photos.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { PhotosPersona } from "./photos-persona.entity";
 
 @Entity()
 export class WoPersonnel {
@@ -64,6 +66,12 @@ export class WoPersonnel {
 
     @Column({ nullable: true })
     src_certificate : string;
+
+    @Column({ nullable: true })
+    src_field_report: string; // PDF informe de campo
+
+    @OneToMany(() => PhotosPersona, (photos) => photos.woPersonnel, { cascade: true })
+    photos: PhotosPersona[];
 
     @Column({ nullable: true })
     type_currency : string;

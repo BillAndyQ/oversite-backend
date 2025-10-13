@@ -21,19 +21,32 @@ import { UnidadModule } from './unidad/unidad.module';
 import { Unidad } from './unidad/entities/unidad.entity';
 import { QuotationModule } from './quotation/quotation.module';
 import { Enterprise } from './enterprise/entities/enterprise.entity';
+import { CursosModule } from './cursos/cursos.module';
+import { Curso } from './cursos/entities/curso.entity';
+import { MinioService } from './minio/minio.service';
+import { ConfigModule } from '@nestjs/config';
+import { ProjectsModule } from './projects/projects.module';
+import { Project } from './projects/entities/project.entity';
+import { PhotosPersona } from './wo-personnel/entities/photos-persona.entity';
 
 @Module({
-  imports: [AuthModule, UserModule, TypeOrmModule.forRoot({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,   // <-- Disponible en toda la app sin volver a importarlo}
+      envFilePath: '.env.local',
+    }),
+    AuthModule, UserModule, TypeOrmModule.forRoot({
     type: 'postgres',
     host: 'localhost',
     port: 5498,
     username: 'user',
     password: 'password',
     database: 'appdb',
-    entities: [User, RefreshToken, OtEquipo, Photos, Role, Sequence, SequenceCot, WoPersonnel, Unidad, Enterprise],
+    entities: [User, RefreshToken, OtEquipo, Photos, Role, Sequence, SequenceCot, WoPersonnel, Unidad, Enterprise, Curso, Project, PhotosPersona],
     synchronize: true,
-  }), OtEquipoModule, SequenceModule, InvoiceModule, WoPersonnelModule, EnterpriseModule, UnidadModule, QuotationModule],
+  }), OtEquipoModule, SequenceModule, InvoiceModule, WoPersonnelModule, EnterpriseModule, UnidadModule, QuotationModule, CursosModule, ProjectsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MinioService],
 })
+
 export class AppModule {}
